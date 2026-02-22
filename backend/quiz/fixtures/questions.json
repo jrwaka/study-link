@@ -1,0 +1,152 @@
+[
+  {
+    "model": "quiz.question",
+    "pk": 1,
+    "fields": {
+      "question_text": "What year did Rwanda gain independence?",
+      "option_a": "1960",
+      "option_b": "1962",
+      "option_c": "1965",
+      "option_d": "1970",
+      "correct_answer": "1962",
+      "explanation": "Rwanda gained independence from Belgium on July 1, 1962.",
+      "category": "HISTORY",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "quiz.question",
+    "pk": 2,
+    "fields": {
+      "question_text": "Which of the following is an official language of Rwanda?",
+      "option_a": "Swahili only",
+      "option_b": "French only",
+      "option_c": "English only",
+      "option_d": "All of the above",
+      "correct_answer": "All of the above",
+      "explanation": "Rwanda has four official languages: Kinyarwanda, French, English, and Swahili.",
+      "category": "LANGUAGE",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "quiz.question",
+    "pk": 3,
+    "fields": {
+      "question_text": "What is the capital city of Rwanda?",
+      "option_a": "Butare",
+      "option_b": "Gisenyi",
+      "option_c": "Kigali",
+      "option_d": "Musanze",
+      "correct_answer": "Kigali",
+      "explanation": "Kigali is the capital and largest city of Rwanda.",
+      "category": "GEOGRAPHY",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "quiz.question",
+    "pk": 4,
+    "fields": {
+      "question_text": "Which country is known as the 'Land of a Thousand Hills'?",
+      "option_a": "Kenya",
+      "option_b": "Uganda",
+      "option_c": "Tanzania",
+      "option_d": "Rwanda",
+      "correct_answer": "Rwanda",
+      "explanation": "Rwanda is famously known as the 'Land of a Thousand Hills' due to its mountainous terrain.",
+      "category": "GEOGRAPHY",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "quiz.question",
+    "pk": 5,
+    "fields": {
+      "question_text": "What is the main currency used in Rwanda?",
+      "option_a": "Kenyan Shilling",
+      "option_b": "Ugandan Shilling",
+      "option_c": "Rwandan Franc",
+      "option_d": "US Dollar",
+      "correct_answer": "Rwandan Franc",
+      "explanation": "The Rwandan Franc (RWF) is the official currency of Rwanda.",
+      "category": "ECONOMICS",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "quiz.question",
+    "pk": 6,
+    "fields": {
+      "question_text": "Which of these is a major export of Rwanda?",
+      "option_a": "Coffee",
+      "option_b": "Tea",
+      "option_c": "Minerals",
+      "option_d": "All of the above",
+      "correct_answer": "All of the above",
+      "explanation": "Rwanda exports coffee, tea, and various minerals including coltan and cassiterite.",
+      "category": "ECONOMICS",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "quiz.question",
+    "pk": 7,
+    "fields": {
+      "question_text": "Lake Kivu is shared between Rwanda and which country?",
+      "option_a": "Uganda",
+      "option_b": "Tanzania",
+      "option_c": "Burundi",
+      "option_d": "Democratic Republic of Congo",
+      "correct_answer": "Democratic Republic of Congo",
+      "explanation": "Lake Kivu is shared between Rwanda and the Democratic Republic of Congo.",
+      "category": "GEOGRAPHY",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "quiz.question",
+    "pk": 8,
+    "fields": {
+      "question_text": "What is the traditional Rwandan dance called?",
+      "option_a": "Intore",
+      "option_b": "Tamure",
+      "option_c": "Salsa",
+      "option_d": "Kwaito",
+      "correct_answer": "Intore",
+      "explanation": "Intore is a traditional Rwandan dance performed by dancers wearing grass wigs and carrying spears.",
+      "category": "CULTURE",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "quiz.question",
+    "pk": 9,
+    "fields": {
+      "question_text": "Which mountain range is found in Rwanda?",
+      "option_a": "Atlas Mountains",
+      "option_b": "Virunga Mountains",
+      "option_c": "Drakensberg Mountains",
+      "option_d": "Kilimanjaro",
+      "correct_answer": "Virunga Mountains",
+      "explanation": "The Virunga Mountains are a chain of volcanoes in East Africa, with some located in Rwanda.",
+      "category": "GEOGRAPHY",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "quiz.question",
+    "pk": 10,
+    "fields": {
+      "question_text": "What is Rwanda's national anthem called?",
+      "option_a": "Rwanda Nziza",
+      "option_b": "Tanzania Nakupenda",
+      "option_c": "Kenya Hakuna Matata",
+      "option_d": "Uganda Empango",
+      "correct_answer": "Rwanda Nziza",
+      "explanation": "'Rwanda Nziza' is the national anthem of Rwanda.",
+      "category": "CULTURE",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
+  }
+]
