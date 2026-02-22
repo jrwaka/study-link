@@ -29,3 +29,8 @@ source venv/bin/activate      # Linux / Mac
 # OR venv\Scripts\activate    # Windows
 pip install -r requirements.txt
 python manage.py runserver
+```
+## Team Roles
+- DevOps Lead – Junior Rwaka
+- Frontend Lead – Ketia Mukakalisa
+- Backend Lead – Mairo Pedro Isaac
