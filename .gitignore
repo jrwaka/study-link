@@ -1,3 +1,6 @@
+# Ignore node_modules and package-lock.json in frontend
+/frontend/node_modules/
+/frontend/package-lock.json
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,django,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,react,django,windows
 
