@@ -10,5 +10,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # Quiz API endpoints
-    path('api/', include('quiz.urls')),
+    path('api/quiz/', include('quiz.urls')),
 ]
