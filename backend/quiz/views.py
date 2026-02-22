@@ -16,24 +16,22 @@ from .serializers import QuestionSerializer, AnswerSerializer, AnswerCheckSerial
 def get_all_questions(request):
     """
     API endpoint to get all questions
-    Returns a list of all questions without correct answers
+    Can filter by ?category=
     """
-    questions = Question.objects.all()
+    category = request.GET.get('category', None)
+
+    if category:
+        questions = Question.objects.filter(category__iexact=category)
+    else:
+        questions = Question.objects.all()
+
     serializer = QuestionSerializer(questions, many=True)
-    
-    # Initialize quiz session if not exists
-    if 'quiz_started' not in request.session:
-        request.session['quiz_started'] = True
-        request.session['current_question'] = 0
-        request.session['score'] = 0
-        request.session['answers'] = []
-        request.session['total_questions'] = questions.count()
-    
+
     return Response({
         'questions': serializer.data,
-        'total_questions': questions.count(),
-        'current_progress': request.session.get('current_question', 0)
+        'total_questions': questions.count()
     })
+
 
 @api_view(['POST'])
 def check_answer(request):
