@@ -1,22 +1,22 @@
-import React from 'react';
+import React from 'react'
 
 function Score({ score, total, onRestart }) {
+  const pct = total > 0 ? Math.round((score / total) * 100) : 0
+  const emoji = pct === 100 ? '🏆' : pct >= 80 ? '🎉' : pct >= 60 ? '👍' : '📚'
+
   return (
-    <div className="w-full max-w-xl bg-white rounded-3xl shadow-xl p-10 mt-10 text-center flex flex-col items-center gap-6">
-      <h2 className="text-3xl font-bold text-slate-900">
-        Your Score
-      </h2>
-      <p className="text-xl text-slate-700">
-        {score} / {total} correct
-      </p>
-      <button
-        onClick={onRestart}
-        className="px-6 py-3 mt-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
-      >
-        Restart Quiz
+    <div style={{ width: '100%', maxWidth: 440, background: '#fff', borderRadius: 20, boxShadow: '0 4px 24px rgba(0,0,0,0.07)', padding: '48px 36px', textAlign: 'center' }}>
+      <div style={{ fontSize: 48, marginBottom: 12 }}>{emoji}</div>
+      <h2 style={{ fontSize: 24, fontWeight: 700, color: '#1e293b', marginBottom: 6 }}>Quiz Complete!</h2>
+      <p style={{ color: '#94a3b8', fontSize: 15, marginBottom: 28 }}>You scored {score} out of {total} — {pct}%</p>
+      <div style={{ height: 8, background: '#f1f5f9', borderRadius: 99, marginBottom: 32, overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${pct}%`, background: '#6366f1', borderRadius: 99, transition: 'width 0.8s ease' }} />
+      </div>
+      <button onClick={onRestart} style={{ padding: '12px 28px', background: '#6366f1', color: '#fff', border: 'none', borderRadius: 10, fontWeight: 600, fontSize: 15, cursor: 'pointer' }}>
+        Try Another Quiz
       </button>
     </div>
-  );
+  )
 }
 
-export default Score;
+export default Score

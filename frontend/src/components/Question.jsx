@@ -2,42 +2,30 @@ import React from 'react'
 
 function Question({ question, options, selected, onSelect, showCorrect, correctAnswer, explanation }) {
   return (
-    <div className="flex flex-col gap-4">
-      <h2 className="text-lg font-semibold text-slate-800">{question}</h2>
-      
-      <div className="flex flex-col gap-2">
+    <div>
+      <p style={{ fontSize: 17, fontWeight: 600, color: '#1e293b', lineHeight: 1.5, marginBottom: 20 }}>{question}</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {options.map((opt, idx) => {
-          let bg = 'bg-white'
-          let text = 'text-slate-700 hover:bg-slate-100'
-
+          let bg = '#f8fafc', border = '#e2e8f0', color = '#475569'
           if (showCorrect) {
-            if (opt === correctAnswer) {
-              bg = 'bg-green-200 text-green-800'
-            } else if (opt === selected && selected !== correctAnswer) {
-              bg = 'bg-red-200 text-red-800'
-            } else {
-              bg = 'bg-slate-100'
-            }
+            if (opt === correctAnswer)             { bg = '#f0fdf4'; border = '#86efac'; color = '#166534' }
+            else if (opt === selected)             { bg = '#fef2f2'; border = '#fca5a5'; color = '#991b1b' }
+            else                                   { color = '#cbd5e1' }
           } else if (selected === opt) {
-            bg = 'bg-blue-200 text-blue-800'
+            bg = '#eef2ff'; border = '#a5b4fc'; color = '#3730a3'
           }
-
           return (
-            <button
-              key={idx}
-              onClick={() => onSelect(opt)}
-              disabled={showCorrect}
-              className={`px-4 py-2 rounded-md border border-slate-300 text-left ${bg} ${text} transition`}
-            >
+            <button key={idx} onClick={() => onSelect(opt)} disabled={showCorrect}
+              style={{ textAlign: 'left', padding: '12px 16px', borderRadius: 10, border: `1.5px solid ${border}`, background: bg, color, fontSize: 15, cursor: showCorrect ? 'default' : 'pointer', transition: 'all 0.15s' }}>
               {opt}
             </button>
           )
         })}
       </div>
-
-      {/* Show explanation if needed */}
-      {showCorrect && (
-        <p className="mt-2 text-sm text-slate-600">{explanation}</p>
+      {showCorrect && explanation && (
+        <p style={{ marginTop: 16, fontSize: 14, color: '#64748b', background: '#f8fafc', borderRadius: 10, padding: '12px 14px', borderLeft: '3px solid #6366f1' }}>
+          💡 {explanation}
+        </p>
       )}
     </div>
   )
