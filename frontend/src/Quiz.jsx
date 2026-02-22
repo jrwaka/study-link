@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Question from './components/Question'
 import Score from './components/Score'
 
@@ -11,94 +11,79 @@ function Quiz() {
   const [selected, setSelected] = useState(null)
   const [showCorrect, setShowCorrect] = useState(false)
   const [currentExplanation, setCurrentExplanation] = useState('')
+  const [correctAnswer, setCorrectAnswer] = useState(null)
+  const [loading, setLoading] = useState(false)
 
+  const scoreRef = useRef(0)
   const subjects = ['HISTORY', 'LANGUAGE', 'GEOGRAPHY', 'ECONOMICS', 'CULTURE']
 
-  // Fetch questions when category changes
   useEffect(() => {
     if (!category) return
-
     fetch(`http://127.0.0.1:8000/api/quiz/questions/?category=${category}`)
       .then(res => res.json())
       .then(data => setQuizData(data.questions))
       .catch(err => console.error(err))
-
-    // Reset quiz state
-    setCurrent(0)
-    setScore(0)
-    setShowScore(false)
-    setSelected(null)
-    setShowCorrect(false)
-    setCurrentExplanation('')
+    setCurrent(0); setScore(0); scoreRef.current = 0
+    setShowScore(false); setSelected(null); setShowCorrect(false)
+    setCurrentExplanation(''); setCorrectAnswer(null)
   }, [category])
 
-  const handleNext = () => {
-    if (!selected) return
+  const handleNext = async () => {
+    if (!selected || loading) return
+    setLoading(true)
+    try {
+      const res = await fetch('http://127.0.0.1:8000/api/quiz/check-answer/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question_id: quizData[current].id, selected_answer: selected })
+      })
+      const data = await res.json()
+      if (data.is_correct) { scoreRef.current += 1; setScore(scoreRef.current) }
+      setCorrectAnswer(data.correct_answer)
+      setCurrentExplanation(data.explanation)
+      setShowCorrect(true)
+    } catch (err) { console.error(err) }
+    finally { setLoading(false) }
 
-    // Show correct answer + explanation
-    setShowCorrect(true)
-    setCurrentExplanation(quizData[current].explanation)
-
-    // Update score
-    if (selected === quizData[current].correct_answer) {
-      setScore(s => s + 1)
-    }
-
-    // Move to next question after 1.2s
     setTimeout(() => {
-      setShowCorrect(false)
-      setSelected(null)
-      setCurrentExplanation('')
-
+      setShowCorrect(false); setSelected(null)
+      setCurrentExplanation(''); setCorrectAnswer(null)
       if (current < quizData.length - 1) setCurrent(c => c + 1)
       else setShowScore(true)
-    }, 1200)
+    }, 2500)
   }
 
   const handleRestart = () => {
-    setCategory('')
-    setQuizData([])
-    setCurrent(0)
-    setScore(0)
-    setShowScore(false)
-    setSelected(null)
-    setShowCorrect(false)
-    setCurrentExplanation('')
+    setCategory(''); setQuizData([]); setCurrent(0); setScore(0)
+    scoreRef.current = 0; setShowScore(false); setSelected(null)
+    setShowCorrect(false); setCurrentExplanation(''); setCorrectAnswer(null)
+    fetch('http://127.0.0.1:8000/api/quiz/reset/', { method: 'POST' }).catch(console.error)
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center px-6 py-16">
-      <h1 className="text-4xl font-bold text-slate-800 mb-2">Study Link Quiz</h1>
-      <p className="text-slate-500 mb-10">Choose a subject to begin</p>
+    <div style={{ minHeight: '100vh', background: '#f8fafc', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px', fontFamily: 'system-ui, sans-serif' }}>
+      <h1 style={{ fontSize: 28, fontWeight: 700, color: '#1e293b', marginBottom: 6 }}>Study Link Quiz</h1>
+      <p style={{ color: '#94a3b8', marginBottom: 36, fontSize: 15 }}>Choose a subject to begin</p>
 
-      {/* SUBJECT SELECTION */}
       {!category && (
-        <div className="flex flex-wrap gap-3 justify-center max-w-xl">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center', maxWidth: 480 }}>
           {subjects.map(sub => (
-            <button
-              key={sub}
-              onClick={() => setCategory(sub)}
-              className="px-5 py-2 bg-white rounded-full shadow-sm hover:shadow-md text-slate-700 text-sm font-medium transition"
-            >
+            <button key={sub} onClick={() => setCategory(sub)} style={{ padding: '10px 20px', borderRadius: 99, border: '1.5px solid #e2e8f0', background: '#fff', color: '#475569', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>
               {sub}
             </button>
           ))}
         </div>
       )}
 
-      {/* QUIZ CARD */}
       {quizData.length > 0 && !showScore && (
-        <div className="w-full max-w-xl bg-white rounded-3xl shadow-xl p-10 mt-10 flex flex-col gap-6">
-          {/* Progress Bar */}
-          <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden mb-4">
-            <div
-              className="bg-blue-500 h-2 transition-all duration-300"
-              style={{ width: `${((current + 1) / quizData.length) * 100}%` }}
-            />
+        <div style={{ width: '100%', maxWidth: 520, background: '#fff', borderRadius: 20, boxShadow: '0 4px 24px rgba(0,0,0,0.07)', padding: '36px 32px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: '#94a3b8', marginBottom: 10 }}>
+            <span>Question {current + 1} / {quizData.length}</span>
+            <span style={{ color: '#6366f1', fontWeight: 600 }}>{category}</span>
           </div>
-          <p className="text-sm text-slate-400 mb-2">
-            Question {current + 1} / {quizData.length}
-          </p>
+          <div style={{ height: 4, background: '#f1f5f9', borderRadius: 99, marginBottom: 28, overflow: 'hidden' }}>
+            <div style={{ height: '100%', width: `${((current + 1) / quizData.length) * 100}%`, background: '#6366f1', borderRadius: 99, transition: 'width 0.4s ease' }} />
+          </div>
 
           <Question
             question={quizData[current].question_text}
@@ -106,26 +91,20 @@ function Quiz() {
             selected={selected}
             onSelect={setSelected}
             showCorrect={showCorrect}
-            correctAnswer={quizData[current].correct_answer}
+            correctAnswer={correctAnswer}
             explanation={currentExplanation}
           />
 
-          <button
-            onClick={handleNext}
-            disabled={!selected || showCorrect}
-            className="self-end text-blue-600 font-semibold hover:underline disabled:text-gray-300"
-          >
-            {current === quizData.length - 1 ? 'Finish →' : 'Next →'}
+          <button onClick={handleNext} disabled={!selected || showCorrect || loading}
+            style={{ marginTop: 24, marginLeft: 'auto', display: 'block', padding: '11px 26px', background: !selected || showCorrect || loading ? '#e2e8f0' : '#6366f1', color: !selected || showCorrect || loading ? '#94a3b8' : '#fff', border: 'none', borderRadius: 10, fontWeight: 600, fontSize: 14, cursor: !selected || showCorrect || loading ? 'not-allowed' : 'pointer' }}>
+            {loading ? 'Checking…' : current === quizData.length - 1 ? 'Finish →' : 'Next →'}
           </button>
         </div>
       )}
 
-      {/* SCORE CARD */}
       {showScore && (
-        <Score score={score} total={quizData.length} onRestart={handleRestart} />
+        <Score score={scoreRef.current} total={quizData.length} onRestart={handleRestart} />
       )}
-
-      <p className="mt-20 text-xs text-slate-400">Powered by Study Link</p>
     </div>
   )
 }
