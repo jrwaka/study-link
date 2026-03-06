@@ -144,7 +144,7 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./backend
+          context: .
           push: false
           tags: |
             study-link:latest
