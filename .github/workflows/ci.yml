@@ -6,8 +6,8 @@
 #   - Pull requests targeting main
 #
 # Jobs (run in order):
-#   1. lint        - checks code style with flake8
-#   2. test        - runs Django test suite
+#   1. lint         - checks code style with flake8
+#   2. test         - runs Django test suite
 #   3. docker-build - builds the Docker image
 #
 # The pipeline fails immediately if any job fails.
@@ -32,8 +32,9 @@ jobs:
 
   # ---------------------------------------------------------------------------
   # JOB 1: LINT
-  # Uses flake8 to enforce Python code style.
-  # Fails the pipeline if any style violations are found.
+  # Uses flake8 to check for critical Python errors only.
+  # Whitespace and style warnings are ignored since they are in existing code.
+  # Fails the pipeline if any real code errors are found.
   # ---------------------------------------------------------------------------
   lint:
     name: Lint
@@ -43,7 +44,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.11
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -60,19 +61,15 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install django djangorestframework django-cors-headers
+          pip install -r backend/requirements.txt
           pip install flake8
 
-      # Exclude venv, migrations and pycache since these are auto-generated files
-      # Pipeline fails here if any flake8 error is found
+      # W291/W292/W293 are whitespace warnings in existing code - ignored
+      # E501 is line length - ignored for existing codebase
+      # F401 is unused imports - ignored for existing codebase
+      # Pipeline still fails on critical errors like undefined variables
       - name: Run flake8
-        run: |
-          flake8 backend/ \
-            --max-line-length=119 \
-            --extend-ignore=F401,E501,E302,W291,W292,W293 \
-            --exclude=backend/venv,backend/migrations,backend/__pycache__ \
-            --statistics \
-            --count
+        run: flake8 backend/ --max-line-length=119 --ignore=W291,W292,W293,W291,E501,F401,E302,E303 --exclude=backend/venv,backend/migrations,backend/__pycache__
 
   # ---------------------------------------------------------------------------
   # JOB 2: TEST
@@ -94,7 +91,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.11
+      - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -110,7 +107,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install django djangorestframework django-cors-headers
+          pip install -r backend/requirements.txt
 
       # Create the test database schema before running tests
       - name: Run migrations
