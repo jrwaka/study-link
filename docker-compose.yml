@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  # Backend
+  backend:
+    build: .
+
+    ports:
+      - "8000:8000"
+    
+    volumes:
+      - ./backend:/app
+    
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+    
+    command: >
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+
+  # Frontend
+  frontend:
+    image: node:20-slim
+
+    working_dir: /frontend
+
+    ports:
+      - "5173:5173"
+    
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    
+    # Install dependencies and start the app
+
+    command: sh -c "npm Install & npm run dev -- --host"
+
+
+    # Wait for the backend to be ready before starting
+
+    depends_on:
+      - backend
