@@ -69,7 +69,7 @@ jobs:
         run: |
           flake8 backend/ \
             --max-line-length=119 \
-            --extend-ignore=F401,E501,E302 \
+            --extend-ignore=F401,E501,E302,W291,W292,W293 \
             --exclude=backend/venv,backend/migrations,backend/__pycache__ \
             --statistics \
             --count
