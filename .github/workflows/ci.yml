@@ -1,0 +1,153 @@
+# =============================================================================
+# CI Pipeline - Study Link Django Application
+# =============================================================================
+# Triggers:
+#   - Push to any branch except main
+#   - Pull requests targeting main
+#
+# Jobs (run in order):
+#   1. lint         - checks code style with flake8
+#   2. test         - runs Django test suite
+#   3. docker-build - builds the Docker image
+#
+# The pipeline fails immediately if any job fails.
+# =============================================================================
+
+name: CI Pipeline
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Cancel redundant runs on the same branch when a new push is made
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  # ---------------------------------------------------------------------------
+  # JOB 1: LINT
+  # Uses flake8 to check for critical Python errors only.
+  # Whitespace and style warnings are ignored since they are in existing code.
+  # Fails the pipeline if any real code errors are found.
+  # ---------------------------------------------------------------------------
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Cache pip downloads to speed up future runs
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('backend/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+          pip install flake8
+
+      # W291/W292/W293 are whitespace warnings in existing code - ignored
+      # E501 is line length - ignored for existing codebase
+      # F401 is unused imports - ignored for existing codebase
+      # Pipeline still fails on critical errors like undefined variables
+      - name: Run flake8
+        run: flake8 backend/ --max-line-length=119 --ignore=W291,W292,W293,E501,F401,E302,E303 --exclude=backend/venv,backend/migrations,backend/__pycache__
+
+  # ---------------------------------------------------------------------------
+  # JOB 2: TEST
+  # Runs the full Django test suite against a SQLite test database.
+  # Only runs after lint passes.
+  # Fails the pipeline if any test fails.
+  # ---------------------------------------------------------------------------
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: lint
+
+    env:
+      DJANGO_SETTINGS_MODULE: studylink.settings
+      SECRET_KEY: "ci-only-secret-key-not-used-in-production"
+      DEBUG: "True"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('backend/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r backend/requirements.txt
+
+      # Create the test database schema before running tests
+      - name: Run migrations
+        working-directory: backend
+        run: python manage.py migrate --no-input
+
+      # verbosity=2 prints each test name so we can see exactly what passed/failed
+      # Pipeline fails here if any test returns an error
+      - name: Run tests
+        working-directory: backend
+        run: python manage.py test --verbosity=2
+
+  # ---------------------------------------------------------------------------
+  # JOB 3: DOCKER BUILD
+  # Builds the Docker image to confirm the Dockerfile is valid.
+  # Only runs after tests pass.
+  # Fails the pipeline if the image cannot be built.
+  # ---------------------------------------------------------------------------
+  docker-build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Build the image but do not push it to any registry
+      # Tagged with both 'latest' and the exact commit SHA for traceability
+      # Pipeline fails here if the Dockerfile has any errors
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: |
+            study-link:latest
+            study-link:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
