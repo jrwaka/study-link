@@ -1,0 +1,42 @@
+# Compiled Python files
+**/__pycache__
+**/*.pyc
+**/*.pyo
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# SQLite database
+*.sqlite3
+
+# Django static/media files
+staticfiles/
+mediafiles/
+
+
+# Node dependencies
+frontend/node_modules/
+
+# Vite build output
+frontend/dist/
+
+
+# Git history and config
+.git/
+.gitignore
+
+
+
+.env
+.env.*
+
+.vscode/
+.idea/
+**/.DS_Store
+**/Thumbs.db
+
+Dockerfile
+Dockerfile.*
+docker-compose.yml

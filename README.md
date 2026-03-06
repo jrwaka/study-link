@@ -36,7 +36,48 @@ The platform is built with a clean separation of frontend and backend to allow e
 - **Database / Data**: JSON  
 - **Other**: GitHub Projects for task management, GitHub branch protection for DevOps best practices  
 
-## Getting Started
+---
+
+## Running with Docker (Recommended)
+
+This is the easiest way to run the full application with a single command.
+
+### Prerequisites
+
+- [Docker](https://www.docker.com/get-started) installed
+- [Docker Compose](https://docs.docker.com/compose/install/) installed
+
+### Steps
+
+#### 1. Clone the repository:
+
+```bash
+git clone https://github.com/jrwaka/study-link.git
+cd study-link
+```
+
+#### 2. Start both backend and frontend:
+
+```bash
+docker-compose up --build
+```
+
+#### 3. Open in your browser:
+
+- Frontend → http://localhost:5173
+- Backend API → http://localhost:8000
+
+#### 4. To stop the containers:
+
+```bash
+docker-compose down
+```
+
+> **Note:** The `--build` flag is only needed the first time or after changing dependencies. After that, `docker-compose up` is enough.
+
+---
+
+## Running Manually (Without Docker)
 
 ### Prerequisites
 
@@ -82,6 +123,7 @@ Browse subjects, take a quiz, and view your score
 
 ## Project Structure
 
+```
 ├── backend/          # Django backend
 │   ├── manage.py
 │   ├── quiz/         # quiz app
@@ -90,8 +132,11 @@ Browse subjects, take a quiz, and view your score
 │   ├── src/
 │   ├── index.html
 │   └── package.json
-├── data/             # sample quiz JSON data
+├── Dockerfile        # Container configuration
+├── docker-compose.yml # Multi-container orchestration
+├── .dockerignore     # Files excluded from Docker build
 └── README.md
+```
 
 ## Links
 
