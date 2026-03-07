@@ -69,7 +69,7 @@ jobs:
       # F401 is unused imports - ignored for existing codebase
       # Pipeline still fails on critical errors like undefined variables
       - name: Run flake8
-        run: flake8 backend/ --max-line-length=119 --ignore=W291,W292,W293,E501,F401,E302,E303 --exclude=backend/venv,backend/migrations,backend/__pycache__
+        run: python -m flake8 backend/ --max-line-length=119 --ignore=W291,W292,W293,E501,F401,E302,E303 --exclude=backend/venv,backend/migrations,backend/__pycache__
 
   # ---------------------------------------------------------------------------
   # JOB 2: TEST
