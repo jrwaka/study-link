@@ -12,6 +12,9 @@ from rest_framework.response import Response
 from .models import Question
 from .serializers import QuestionSerializer, AnswerSerializer, AnswerCheckSerializer
 
+# Intentional error for CI demonstration
+undefined_variable_for_testing
+
 @api_view(['GET'])
 def get_all_questions(request):
     """
