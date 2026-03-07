@@ -49,13 +49,22 @@ curl -L -X PUT \
 ## 2) CI Evidence
 
 ### Successful CI runs (at least 3)
-- Run #14 (success, pull_request): https://github.com/jrwaka/study-link/actions/runs/22781574434
-- Run #13 (success, push): https://github.com/jrwaka/study-link/actions/runs/22781573275
-- Run #15 (success, push): to be captured after this evidence commit is pushed
+- Run #13 (success, push to feature/ci-pipeline, 2026-03-06 20:54:08 UTC): https://github.com/jrwaka/study-link/actions/runs/22781573275
+- Run #14 (success, pull_request to feature/ci-pipeline, 2026-03-06 20:54:10 UTC): https://github.com/jrwaka/study-link/actions/runs/22781574434
+- Run #20 (success, push to feature/branch-protection, 2026-03-07 11:53:04 UTC): https://github.com/jrwaka/study-link/actions/runs/22798554684
 
-### Failed CI run (then fixed)
-- Failed run #12 (failure): https://github.com/jrwaka/study-link/actions/runs/22781084669
-- Fixed by subsequent success run #13: https://github.com/jrwaka/study-link/actions/runs/22781573275
+### Failed CI run sequence (then fixed)
+**Failure sequence** (feature/branch-protection branch):
+- Run #15 (failure, 2026-03-07 11:03:41 UTC): https://github.com/jrwaka/study-link/actions/runs/22797838773
+- Run #16 (failure, 2026-03-07 11:15:39 UTC): https://github.com/jrwaka/study-link/actions/runs/22797943849
+- Run #17 (failure, 2026-03-07 11:18:01 UTC): https://github.com/jrwaka/study-link/actions/runs/22797965165
+- Run #18 (failure, 2026-03-07 11:26:33 UTC): https://github.com/jrwaka/study-link/actions/runs/22798073769
+- Run #19 (failure, 2026-03-07 11:50:22 UTC): https://github.com/jrwaka/study-link/actions/runs/22798438898
+
+**Fixed in**:
+- Run #20 (success, 2026-03-07 11:53:04 UTC): https://github.com/jrwaka/study-link/actions/runs/22798554684
+  - Resolution: Removed intentional CI test error from `backend/quiz/views.py`
+  - Commit: `e6a1d34` - fix: remove intentional CI test error from views
 
 ## 3) Pull Request + CI + Code Review Evidence
 
