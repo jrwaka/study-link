@@ -29,7 +29,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-
   # ---------------------------------------------------------------------------
   # JOB 1: LINT
   # Uses flake8 to check for critical Python errors only.
@@ -47,7 +46,7 @@ jobs:
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
       # Cache pip downloads to speed up future runs
       - name: Cache pip packages
@@ -61,8 +60,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r backend/requirements.txt
-          pip install flake8
+          python -m pip install -r backend/requirements.txt
+          python -m pip install flake8
 
       # W291/W292/W293 are whitespace warnings in existing code - ignored
       # E501 is line length - ignored for existing codebase
@@ -84,8 +83,8 @@ jobs:
 
     env:
       DJANGO_SETTINGS_MODULE: studylink.settings
-      SECRET_KEY: "ci-only-secret-key-not-used-in-production"
-      DEBUG: "True"
+      SECRET_KEY: 'ci-only-secret-key-not-used-in-production'
+      DEBUG: 'True'
 
     steps:
       - name: Checkout code
@@ -94,7 +93,7 @@ jobs:
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
       - name: Cache pip packages
         uses: actions/cache@v4
@@ -107,7 +106,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r backend/requirements.txt
+          python -m pip install -r backend/requirements.txt
 
       # Create the test database schema before running tests
       - name: Run migrations
