@@ -5,11 +5,13 @@
 `main` is protected (`"protected": true` from `GET /repos/jrwaka/study-link/branches/main`).
 
 Required CI checks to enforce before merge:
+
 - `Lint`
 - `Test`
 - `Docker Build`
 
 Manual update path (repo admin):
+
 1. Open `https://github.com/jrwaka/study-link/settings/branches`.
 2. Edit the branch protection rule for `main`.
 3. Enable `Require status checks to pass before merging`.
@@ -17,6 +19,7 @@ Manual update path (repo admin):
 5. Save changes.
 
 API alternative (repo admin token required):
+
 ```bash
 curl -L -X PUT \
   -H "Accept: application/vnd.github+json" \
@@ -49,12 +52,15 @@ curl -L -X PUT \
 ## 2) CI Evidence
 
 ### Successful CI runs (at least 3)
+
 - Run #13 (success, push to feature/ci-pipeline, 2026-03-06 20:54:08 UTC): https://github.com/jrwaka/study-link/actions/runs/22781573275
 - Run #14 (success, pull_request to feature/ci-pipeline, 2026-03-06 20:54:10 UTC): https://github.com/jrwaka/study-link/actions/runs/22781574434
 - Run #20 (success, push to feature/branch-protection, 2026-03-07 11:53:04 UTC): https://github.com/jrwaka/study-link/actions/runs/22798554684
 
 ### Failed CI run sequence (then fixed)
+
 **Failure sequence** (feature/branch-protection branch):
+
 - Run #15 (failure, 2026-03-07 11:03:41 UTC): https://github.com/jrwaka/study-link/actions/runs/22797838773
 - Run #16 (failure, 2026-03-07 11:15:39 UTC): https://github.com/jrwaka/study-link/actions/runs/22797943849
 - Run #17 (failure, 2026-03-07 11:18:01 UTC): https://github.com/jrwaka/study-link/actions/runs/22797965165
@@ -62,6 +68,7 @@ curl -L -X PUT \
 - Run #19 (failure, 2026-03-07 11:50:22 UTC): https://github.com/jrwaka/study-link/actions/runs/22798438898
 
 **Fixed in**:
+
 - Run #20 (success, 2026-03-07 11:53:04 UTC): https://github.com/jrwaka/study-link/actions/runs/22798554684
   - Resolution: Removed intentional CI test error from `backend/quiz/views.py`
   - Commit: `e6a1d34` - fix: remove intentional CI test error from views
