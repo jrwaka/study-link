@@ -235,3 +235,11 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,django,windows
+
+# Terraform secrets
+terraform/.terraform/
+terraform/*.tfvars
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/.terraform.lock.hclansible/inventory.ini
+terraform/.terraform.lock.hcl
