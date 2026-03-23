@@ -1,0 +1,85 @@
+# Configures the app VM with Docker and Docker Compose
+
+- name: Configure StudyLink App VM
+  hosts: app
+  become: true  # Run commands as sudo (root)
+
+  tasks:
+
+    # Update system packages
+    
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600  # Only updates if cache is older than 1 hour
+
+    # Install required dependencies
+    
+    - name: Install required system packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+          - sshpass
+        state: present
+
+    # Add Docker's GPG key
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    # Add Docker repository
+    
+    - name: Add Docker apt repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu jammy stable
+        state: present
+
+    # Install Docker
+    
+    - name: Install Docker Engine
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: present
+        update_cache: yes
+
+    # Install Docker Compose
+    
+    - name: Install Docker Compose plugin
+      apt:
+        name: docker-compose-plugin
+        state: present
+
+    # Start and enable Docker service
+    
+    - name: Start and enable Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    # Add user to docker group
+
+    - name: Add azureuser to docker group
+      user:
+        name: azureuser
+        groups: docker
+        append: yes
+
+    # Verify Docker is working
+
+    - name: Verify Docker installation
+      command: docker --version
+      register: docker_version  # Saves output to a variable
+
+    - name: Print Docker version
+      debug:
+        msg: "Docker installed: {{ docker_version.stdout }}"
