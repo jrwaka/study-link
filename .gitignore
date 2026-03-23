@@ -241,4 +241,4 @@ terraform/.terraform/
 terraform/*.tfvars
 terraform/*.tfstate
 terraform/*.tfstate.backup
-terraform/.terraform.lock.hcl
+terraform/.terraform.lock.hclansible/inventory.ini
