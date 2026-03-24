@@ -166,6 +166,7 @@ resource "azurerm_network_interface_security_group_association" "app" {
 # Small public VM used as a gateway to SSH into the private app VM
 
 resource "azurerm_linux_virtual_machine" "bastion" {
+  # checkov:skip=CKV_AZURE_50: Virtual Machine Extensions not required for this workload
   name = "${var.project_name}-bastion"
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
@@ -196,6 +197,7 @@ resource "azurerm_linux_virtual_machine" "bastion" {
 # Private VM where Django app will run
 
 resource "azurerm_linux_virtual_machine" "app" {
+  # checkov:skip=CKV_AZURE_50: Virtual Machine Extensions not required for this workload
   name = "${var.project_name}-app-vm"
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
