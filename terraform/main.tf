@@ -222,3 +222,32 @@ resource "azurerm_container_registry" "acr" {
   sku = var.acr_sku
   admin_enabled = true
 }
+
+# Azure Database for PostgreSQL - Flexible Server
+# The database for our application
+
+resource "azurerm_postgresql_flexible_server" "db" {
+  name                   = "${var.project_name}-psql-server"
+  resource_group_name    = azurerm_resource_group.main.name
+  location               = azurerm_resource_group.main.location
+  version                = "13"
+  administrator_login    = var.db_admin_username
+  administrator_password = var.db_admin_password
+  storage_mb             = 32768
+  sku_name               = "B_Standard_B1ms" # Economical burstable tier
+}
+
+resource "azurerm_postgresql_flexible_server_database" "db" {
+  name      = "${var.project_name}db"
+  server_id = azurerm_postgresql_flexible_server.db.id
+  charset   = "UTF8"
+  collation = "en_US.utf8"
+}
+
+# Firewall rule to allow all Azure internal traffic
+resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_azure" {
+  name             = "allow-azure-internal"
+  server_id        = azurerm_postgresql_flexible_server.db.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
+}

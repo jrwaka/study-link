@@ -52,3 +52,17 @@ variable "acr_sku" {
   type        = string
   default     = "Basic"
 }
+
+# Database Credentials
+
+variable "db_admin_username" {
+  description = "Administrator login for PostgreSQL"
+  type        = string
+  default     = "psqladmin"
+}
+
+variable "db_admin_password" {
+  description = "Administrator password for PostgreSQL"
+  type        = string
+  sensitive   = true
+}
