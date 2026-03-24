@@ -12,8 +12,14 @@ services:
       - ./backend:/app
     
     environment:
-      - DEBUG=1
-      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+      - DEBUG=${DEBUG:-0}
+      - DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS:-localhost,127.0.0.1}
+      - USE_POSTGRES=${USE_POSTGRES:-False}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-5432}
     
     command: >
       sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
