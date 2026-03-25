@@ -68,9 +68,9 @@
 
     # Add user to docker group
 
-    - name: Add azureuser to docker group
+    - name: Add rwaka to docker group
       user:
-        name: azureuser
+        name: rwaka
         groups: docker
         append: yes
 
