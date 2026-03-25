@@ -68,9 +68,9 @@
 
     # Add user to docker group
 
-    - name: Add azureuser to docker group
+    - name: Add rwaka to docker group
       user:
-        name: azureuser
+        name: rwaka
         groups: docker
         append: yes
 
@@ -106,9 +106,9 @@
     
     - name: Pull and start the application
       community.docker.docker_compose_v2:
-        project_src: /home/azureuser/
+        project_src: /home/rwaka/
         state: present
-        pull: yes
+        pull: always
       environment:
         DEBUG: "0"
         DJANGO_ALLOWED_HOSTS: "*"
