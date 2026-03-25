@@ -42,7 +42,7 @@ services:
     
     # Install dependencies and start the app
 
-    command: sh -c "npm Install & npm run dev -- --host"
+    command: sh -c "npm install && npm run dev -- --host"
 
 
     # Wait for the backend to be ready before starting
