@@ -103,12 +103,12 @@
         src: ../docker-compose.yml
         dest: /home/rwaka/docker-compose.yml
 
+    
     - name: Pull and start the application
       community.docker.docker_compose_v2:
-        project_src: /home/rwaka/
+        project_src: /home/azureuser/
         state: present
-        pull: always
-        
+        pull: yes
       environment:
         DEBUG: "0"
         DJANGO_ALLOWED_HOSTS: "*"
@@ -117,5 +117,6 @@
         DB_USER: "{{ db_user }}"
         DB_PASSWORD: "{{ db_password }}"
         DB_HOST: "{{ db_host }}"
+        
         # ACR image logic: image name in docker-compose is typically stable, 
         # but here we ensure the latest is pulled from the registry server.
