@@ -85,9 +85,14 @@
         msg: "Docker installed: {{ docker_version.stdout }}"
 
     # Deployment steps for CD
+    
+    - name: Install community.docker collection
+      command: ansible-galaxy collection install community.docker
+      delegate_to: localhost
+      become: false
 
     - name: Log in to Azure Container Registry
-      docker_login:
+      community.docker.docker_login:
         registry_url: "{{ acr_login_server }}"
         username: "{{ acr_username }}"
         password: "{{ acr_password }}"
@@ -96,13 +101,14 @@
     - name: Copy docker-compose.yml to the VM
       copy:
         src: ../docker-compose.yml
-        dest: /home/azureuser/docker-compose.yml
+        dest: /home/rwaka/docker-compose.yml
 
     - name: Pull and start the application
-      docker_compose:
-        project_src: /home/azureuser/
+      community.docker.docker_compose_v2:
+        project_src: /home/rwaka/
         state: present
-        pull: yes
+        pull: always
+        
       environment:
         DEBUG: "0"
         DJANGO_ALLOWED_HOSTS: "*"
