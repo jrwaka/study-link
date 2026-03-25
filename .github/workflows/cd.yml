@@ -73,7 +73,7 @@ jobs:
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
-          ansible-playbook -i "${{ secrets.VM_IP }}," -u azureuser --private-key private_key.pem \
+          ansible-playbook -i "${{ secrets.VM_IP }}," -u rwaka --private-key private_key.pem \
             ansible/playbook.yml \
             --extra-vars "acr_login_server=${{ secrets.ACR_LOGIN_SERVER }} \
                           acr_username=${{ secrets.ACR_USERNAME }} \
