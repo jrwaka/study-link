@@ -106,7 +106,7 @@ jobs:
           ansible-playbook -i inventory_cd.ini \
             -u rwaka \
             --private-key ~/.ssh/private_key.pem \
-            --ssh-extra-args="-o ProxyJump=rwaka@${{ secrets.BASTION_IP }} -o StrictHostKeyChecking=no" \
+            --ssh-extra-args="-o StrictHostKeyChecking=no -o ProxyCommand='ssh -o StrictHostKeyChecking=no -i ~/.ssh/private_key.pem -W %h:%p rwaka@${{ secrets.BASTION_IP }}'" \
             ansible/playbook.yml \
             --extra-vars "acr_login_server=${{ secrets.ACR_LOGIN_SERVER }} \
                           acr_username=${{ secrets.ACR_USERNAME }} \
