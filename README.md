@@ -1,6 +1,6 @@
 # StudyLink
 
-A web platform that helps secondary school students practice quizzes
+A web platform that helps secondary school students practice quizzes.
 
 ## African Context
 
