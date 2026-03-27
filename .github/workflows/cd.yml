@@ -101,13 +101,11 @@ jobs:
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
         run: |
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/private_key.pem
+          chmod 600 ~/.ssh/private_key.pem
           echo "[app]" > inventory_cd.ini
-          echo "app-vm ansible_host=appvm" >> inventory_cd.ini
-      
-          ansible-playbook -i inventory_cd.ini \
-            -u rwaka \
-            --private-key ~/.ssh/private_key.pem \
-            ansible/playbook.yml \
+          echo "app-vm ansible_host=${{ secrets.VM_IP }} ansible_user=rwaka ansible_ssh_private_key_file=~/.ssh/private_key.pem ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -J rwaka@${{ secrets.BASTION_IP }}'" >> inventory_cd.ini
+          ansible-playbook -i inventory_cd.ini ansible/playbook.yml \
             --extra-vars "acr_login_server=${{ secrets.ACR_LOGIN_SERVER }} \
                           acr_username=${{ secrets.ACR_USERNAME }} \
                           acr_password=${{ secrets.ACR_PASSWORD }} \
