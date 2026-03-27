@@ -14,7 +14,7 @@ In many African countries, including Rwanda, secondary school students struggle 
 
 ## Project Overview
 
-StudyLink is a web application designed to help secondary school students prepare for exams by providing quizzes and score tracking. Students can select subjects, attempt quizzes, and immediately see their results to identify areas where they need improvement.  
+StudyLink is a web application designed to help secondary school students prepare for exams by providing quizzes and score tracking. Students can select subjects, attempt quizzes, and immediately see their results to identify areas where they need improvement.   
 
 The platform is built with a clean separation of frontend and backend to allow easy expansion and maintenance. While the first iteration focuses on quizzes, the system is designed to scale for future features like content management, detailed analytics, and teacher dashboards.
 
