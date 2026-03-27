@@ -110,6 +110,7 @@
         state: present
         pull: always
       environment:
+        ACR_LOGIN_SERVER: "{{ acr_login_server }}"
         DEBUG: "0"
         DJANGO_ALLOWED_HOSTS: "*"
         USE_POSTGRES: "True"
