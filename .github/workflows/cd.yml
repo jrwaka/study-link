@@ -102,11 +102,11 @@ jobs:
           ANSIBLE_HOST_KEY_CHECKING: "False"
         run: |
           echo "[app]" > inventory_cd.ini
-          echo "app-vm ansible_host=${{ secrets.VM_IP }}" >> inventory_cd.ini
+          echo "app-vm ansible_host=appvm" >> inventory_cd.ini
+      
           ansible-playbook -i inventory_cd.ini \
             -u rwaka \
             --private-key ~/.ssh/private_key.pem \
-            --ssh-extra-args="-o StrictHostKeyChecking=no -o ProxyCommand='ssh -o StrictHostKeyChecking=no -i ~/.ssh/private_key.pem -W %h:%p rwaka@${{ secrets.BASTION_IP }}'" \
             ansible/playbook.yml \
             --extra-vars "acr_login_server=${{ secrets.ACR_LOGIN_SERVER }} \
                           acr_username=${{ secrets.ACR_USERNAME }} \
