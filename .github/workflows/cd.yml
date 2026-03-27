@@ -137,7 +137,7 @@ jobs:
           EOF
           chmod 600 ~/.ssh/config
           echo "[app]" > inventory_cd.ini
-          echo "app-vm ansible_host=${{ secrets.VM_IP }}" >> inventory_cd.ini
+          echo "app-vm ansible_host=${{ secrets.VM_IP }} ansible_become_password=${{ secrets.VM_PASSWORD }}" >> inventory_cd.ini
           ansible-playbook -i inventory_cd.ini \
             -u rwaka \
             --private-key ~/.ssh/private_key.pem \
@@ -148,5 +148,4 @@ jobs:
                           db_name=${{ secrets.DB_NAME }} \
                           db_user=${{ secrets.DB_USER }} \
                           db_password=${{ secrets.DB_PASSWORD }} \
-                          db_host=${{ secrets.DB_HOST }}" \
-                          ansible_become_password=${{ secrets.VM_PASSWORD }}
+                          db_host=${{ secrets.DB_HOST }}"
