@@ -277,11 +277,3 @@ resource "azurerm_postgresql_flexible_server_database" "db" {
   charset   = "UTF8"
   collation = "en_US.utf8"
 }
-
-# Firewall rule to allow all Azure internal traffic
-resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_azure" {
-  name             = "allow-azure-internal"
-  server_id        = azurerm_postgresql_flexible_server.db.id
-  start_ip_address = "0.0.0.0"
-  end_ip_address   = "0.0.0.0"
-}

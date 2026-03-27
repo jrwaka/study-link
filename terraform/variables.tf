@@ -79,4 +79,3 @@ variable "admin_ip_allow" {
   type        = string
   default     = "*" # In production, this should be a specific IP
 }
-

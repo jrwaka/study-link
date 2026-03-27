@@ -25,3 +25,10 @@ output "acr_login_server" {
   description = "ACR login server URL — used to push/pull Docker images"
   value = azurerm_container_registry.acr.login_server
 }
+
+# Database
+
+output "db_host" {
+  description = "PostgreSQL server FQDN"
+  value = azurerm_postgresql_flexible_server.db.fqdn
+}
