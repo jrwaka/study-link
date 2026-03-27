@@ -2,7 +2,7 @@
 
 A web platform that helps secondary school students practice quizzes. 
 
-## African Context
+## African Context 
 
 In many African countries, including Rwanda, secondary school students struggle to access past exam papers and revision materials in one centralized location. Resources are often scattered across schools, websites, and physical libraries, making effective exam preparation difficult. StudyLink addresses this challenge by providing a simple, online platform for students to revise efficiently, track their progress, and improve their learning outcomes.
 
