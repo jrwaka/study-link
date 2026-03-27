@@ -121,9 +121,27 @@ jobs:
         run: |
           printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/private_key.pem
           chmod 600 ~/.ssh/private_key.pem
+          cat > ~/.ssh/config << EOF
+          Host bastion
+            HostName ${{ secrets.BASTION_IP }}
+            User rwaka
+            IdentityFile ~/.ssh/private_key.pem
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+          Host ${{ secrets.VM_IP }}
+            User rwaka
+            IdentityFile ~/.ssh/private_key.pem
+            ProxyJump bastion
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+          EOF
+          chmod 600 ~/.ssh/config
           echo "[app]" > inventory_cd.ini
-          echo "app-vm ansible_host=${{ secrets.VM_IP }} ansible_user=rwaka ansible_ssh_private_key_file=~/.ssh/private_key.pem ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -J rwaka@${{ secrets.BASTION_IP }}'" >> inventory_cd.ini
-          ansible-playbook -i inventory_cd.ini ansible/playbook.yml \
+          echo "app-vm ansible_host=${{ secrets.VM_IP }}" >> inventory_cd.ini
+          ansible-playbook -i inventory_cd.ini \
+            -u rwaka \
+            --private-key ~/.ssh/private_key.pem \
+            ansible/playbook.yml \
             --extra-vars "acr_login_server=${{ secrets.ACR_LOGIN_SERVER }} \
                           acr_username=${{ secrets.ACR_USERNAME }} \
                           acr_password=${{ secrets.ACR_PASSWORD }} \
