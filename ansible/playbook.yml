@@ -98,6 +98,23 @@
         password: "{{ acr_password }}"
       when: acr_login_server is defined
 
+    - name: Write .env file for docker-compose
+      copy:
+        dest: /home/rwaka/.env
+        owner: rwaka
+        group: rwaka
+        mode: '0600'
+        content: |
+          ACR_LOGIN_SERVER={{ acr_login_server }}
+          DEBUG=0
+          DJANGO_ALLOWED_HOSTS=*
+          USE_POSTGRES=True
+          DB_NAME={{ db_name }}
+          DB_USER={{ db_user }}
+          DB_PASSWORD={{ db_password }}
+          DB_HOST={{ db_host }}
+          DB_PORT=5432
+
     - name: Copy docker-compose.yml to the VM
       copy:
         src: ../docker-compose.yml
