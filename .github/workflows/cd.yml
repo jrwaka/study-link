@@ -111,7 +111,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
             -i ~/.ssh/private_key.pem \
-            -J rwaka@${{ secrets.BASTION_IP }} \
+            -o "ProxyCommand=ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/private_key.pem -W %h:%p rwaka@${{ secrets.BASTION_IP }}" \
             rwaka@${{ secrets.VM_IP }} "echo APPVM_CONNECTED"
 
     
