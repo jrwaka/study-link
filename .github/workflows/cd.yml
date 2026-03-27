@@ -105,6 +105,16 @@ jobs:
             -i ~/.ssh/private_key.pem \
             rwaka@${{ secrets.BASTION_IP }} "echo BASTION_CONNECTED"
 
+
+      - name: Test SSH to App VM via Bastion
+        run: |
+          ssh -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            -i ~/.ssh/private_key.pem \
+            -J rwaka@${{ secrets.BASTION_IP }} \
+            rwaka@${{ secrets.VM_IP }} "echo APPVM_CONNECTED"
+
+    
       - name: Run Ansible Playbook
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
