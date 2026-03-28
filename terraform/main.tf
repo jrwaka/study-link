@@ -261,7 +261,7 @@ resource "azurerm_postgresql_flexible_server" "db" {
   name                   = "${var.project_name}-psql-server"
   resource_group_name    = azurerm_resource_group.main.name
   location               = azurerm_resource_group.main.location
-  version                = "13"
+  version                = "16"
   administrator_login    = var.db_admin_username
   administrator_password = var.db_admin_password
   storage_mb             = 32768
