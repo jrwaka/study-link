@@ -127,4 +127,5 @@ SESSION_COOKIE_AGE = 86400
 # CORS settings - allow React frontend to communicate with Django
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://4.221.88.111:5173",
 ]

@@ -32,7 +32,7 @@ services:
       - /frontend/node_modules
     
     environment:
-      - VITE_API_URL=http://localhost:8000
+      - VITE_API_URL=http://4.221.88.111:8000
     
     # Install dependencies and start the app
 
