@@ -63,7 +63,7 @@ function Quiz() {
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px', fontFamily: 'system-ui, sans-serif' }}>
       <h1 style={{ fontSize: 28, fontWeight: 700, color: '#1e293b', marginBottom: 6 }}>Study Link Quiz</h1>
-      <p style={{ color: '#94a3b8', marginBottom: 36, fontSize: 15 }}>Choose a subject to begin</p>
+      <p style={{ color: '#94a3b8', marginBottom: 36, fontSize: 15 }}>Choose a subject among the following to begin</p>
 
       {!category && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center', maxWidth: 480 }}>
