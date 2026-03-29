@@ -136,6 +136,11 @@
         DB_USER: "{{ db_user }}"
         DB_PASSWORD: "{{ db_password }}"
         DB_HOST: "{{ db_host }}"
+
+    - name: Load question fixtures
+      community.docker.docker_container_exec:
+        container: rwaka-backend-1
+        command: python manage.py loaddata quiz/fixtures/questions.json
         
         # ACR image logic: image name in docker-compose is typically stable, 
         # but here we ensure the latest is pulled from the registry server.

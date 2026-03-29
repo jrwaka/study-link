@@ -148,5 +148,20 @@
       "category": "CULTURE",
       "created_at": "2024-01-01T00:00:00Z"
     }
+  },
+  {
+    "model": "quiz.question",
+    "pk": 11,
+    "fields": {
+      "question_text": "What is the traditional Rwandan pottery technique practiced mainly by Twa women called?",
+      "option_a": "Imigongo",
+      "option_b": "Ibiseke",
+      "option_c": "Uruhindu",
+      "option_d": "Agaseke",
+      "correct_answer": "Uruhindu",
+      "explanation": "Uruhindu is the traditional Rwandan pottery technique historically practiced by Twa women, producing clay pots used for cooking and storing liquids.",
+      "category": "CULTURE",
+      "created_at": "2024-01-01T00:00:00Z"
+    }
   }
 ]
