@@ -4,7 +4,7 @@ A web platform that helps secondary school students practice quizzes.
 
 **Live Application:** http://4.221.88.111:5173
 
-**Demo Video:** [Watch on YouTube](https://youtube.com/placeholder)
+**Demo Video:** [Watch on YouTube](https://youtu.be/aw9AHtUM3ec)
 
 ---
 
