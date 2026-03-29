@@ -126,6 +126,7 @@
         project_src: /home/rwaka/
         state: present
         pull: always
+        recreate: always
       environment:
         ACR_LOGIN_SERVER: "{{ acr_login_server }}"
         DEBUG: "0"
